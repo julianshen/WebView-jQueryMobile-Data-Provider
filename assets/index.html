@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="jquery.mobile-1.0a1.css">
+<script src="jquery.js"></script>
+<script src="jquery.tmpl.js"></script>
+<script src="jquery.mobile-1.0a1.js"></script>
+<script type = "text/javascript">
+$(document).ready(function() {
+	var a = jQuery.parseJSON(""+demo.getContacts());
+	var tmpl = "<li role=\"option\" tabindex=\"-1\" class=\"ui-li ui-btn ui-btn-icon-right ui-btn-up-c\" data-theme=\"c\"><div class=\"ui-btn-inner\"><span class=\"ui-icon ui-icon-arrow-r\"></span><div class=\"ui-btn-text\"><a href=\"tel:${number}\" class=\"ui-link-inherit\" rel=\"external\">${name}</a></div></div></li>";
+	//var tmpl = "<li><a href=\"tel:${number}\">${name}</a></li>";
+	jQuery.template("myTempl", tmpl);
+	
+	jQuery.tmpl("myTempl", a).appendTo("#list1");
+	
+ });
+
+</script>
+<title>jQuery Mobile Demo</title>
+</head>
+<body>
+<div data-role="page" id="p1" class="ui-page ui-body-c ui-page-active">
+
+    <div data-role="header" class="ui-bar-a ui-header" role="banner">
+        <h1 class="ui-title" tabindex="0" role="heading" aria-level="1">My phonebook</h1>
+	</div>
+    <div data-role="content" class="ui-content" role="main">		
+		<ul id="list1" data-role="listview" class="ui-listview" role="listbox">
+		</ul>
+	</div>
+</div>
+</body>
+</html>

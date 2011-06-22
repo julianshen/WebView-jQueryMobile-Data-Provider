@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="jquery.mobile-1.0a1.css">
+<script src="jquery.js"></script>
+<script src="jquery.tmpl.js"></script>
+<script src="jquery.mobile-1.0a1.js"></script>
+<script type = "text/javascript">
+var down = false;
+var lastX = 0;
+var lastY = 0;
+var canvas = null;
+var ctx = null;
+var lastPoints = [];
+$(document).ready(function() {
+	var sizedWindowWidth = $(window).width() ;
+	canvas = $('#paintarea').get(0);
+	
+	ctx = canvas.getContext('2d');  
+
+    //Add event listener
+    ctx.canvas.addEventListener('touchstart', function(event) { 
+
+    	ctx.beginPath();
+    	ctx.lineWidth = 2;
+		ctx.strokeStyle = "rgb(0, 0, 0)";
+    	
+    	if(event.touches) {
+    		for(var i=0;i<event.touches.length;i++) { 
+        		lastPoints[i] = {x:event.touches[i].clientX, y:event.touches[i].clientY};
+        	
+    		}
+    	}
+        
+        down = true; 
+        
+        
+        }, false);
+    ctx.canvas.addEventListener('touchend', function() { 
+    	
+        down = false; 
+        
+        ctx.stroke();
+    	ctx.closePath();
+    	
+        }, false);
+    ctx.canvas.addEventListener('touchmove', function(event) { 
+        if (down) {
+        	if(event.touches) {
+            	
+        		for(var i=0;i<event.touches.length;i++) { 
+            		      
+            		ctx.moveTo(lastPoints[i].x, lastPoints[i].y);   		
+            		ctx.lineTo(event.touches[i].clientX, event.touches[i].clientY); 
+            		lastPoints[i].x=event.touches[i].clientX;   
+            		lastPoints[i].y=event.touches[i].clientY;         		
+            	}
+        		ctx.stroke();
+            	ctx.closePath();
+            	ctx.beginPath();
+            
+            	}            
+         }
+      }, false);  
+ });
+
+</script>
+<title>jQuery Mobile Demo</title>
+ <meta name="viewport" content="width=device-width; 
+	initial-scale=1; maximum-scale=1; user-scalable=0;"/>
+</head>
+<body>
+<div data-role="page" id="p1" class="ui-page ui-body-c ui-page-active">
+
+    <div data-role="header" class="ui-bar-a ui-header" role="banner">
+        <h1 class="ui-title" tabindex="0" role="heading" aria-level="1">DemoDraw</h1>
+	</div>
+    <div data-role="content" class="ui-content" role="main">		
+		<canvas id="paintarea" width="305" height="380">
+		</canvas>
+	</div>
+	<div data-role="footer" class="ui-bar-a ui-footer" role="banner">
+        <h1 class="ui-title" tabindex="0" role="heading" aria-level="1">DemoDraw</h1>
+	</div>
+</div>
+</body>
+</html>
